@@ -2,7 +2,7 @@ import { getImageUrl } from '@/utils'
 import gsap from 'gsap'
 import { Assets, Sprite, type Application } from 'pixi.js'
 
-// 绘制图像到应用中
+// 简单的绘制图像到应用中
 export const demo01 = async (app: Application) => {
   // 1. 图像使用之前需要先加载，和网页中的图片类似
   // Assets：PixiJS 的资源管理器，用于异步加载图像等资源。

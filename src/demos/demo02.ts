@@ -9,6 +9,8 @@ import {
   type UnresolvedAsset,
 } from 'pixi.js'
 
+// 动态鱼塘
+
 // 需要的数学知识
 // 直角三角形 https://www.shuxuele.com/right_angle_triangle.html
 // 勾股定理 https://www.shuxuele.com/pythagoras.html
