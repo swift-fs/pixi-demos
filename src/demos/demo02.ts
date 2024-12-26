@@ -2,6 +2,7 @@ import { getImageUrl } from '@/utils'
 import {
   Assets,
   Container,
+  DisplacementFilter,
   Sprite,
   Texture,
   TilingSprite,
@@ -29,6 +30,8 @@ export const demo02 = async (app: Application) => {
   await addFishes(app)
   // 添加波浪
   await addOverlay(app)
+  // 添加波动效果
+  await addDisplacementEffect(app)
 }
 
 const preloadAssets = async () => {
@@ -183,9 +186,59 @@ const addOverlay = async (app: Application) => {
   app.stage.addChild(overlay)
   app.ticker.add(({ deltaTime }) => {
     // 可以通过设置 tilePosition 来移动纹理，以实现平铺背景的动态效果。tilePosition 是一个 Point，它控制了平铺纹理的偏移量。
-    overlay.tilePosition.x -= 0.5 * deltaTime
-    overlay.tilePosition.y -= 0.5 * deltaTime
+    overlay.tilePosition.x += deltaTime
+    overlay.tilePosition.y += deltaTime
   })
 
   // TilingSprite 是 PixiJS 提供的一个非常有效的工具，用于处理背景或其他需要重复填充的图案。
+}
+
+const addDisplacementEffect = async (app: Application) => {
+  // DisplacementFilter 是一个位移滤镜，它可以基于位移贴图(displacement map)的像素值来移动目标对象的像素位置，从而创造出各种变形和扭曲效果。
+  /*
+    位移贴图(Displacement Map)
+
+    通常是一张黑白图像
+    黑色(R=0)表示不移动
+    白色(R=255)表示最大移动
+    灰度值表示按比例移动
+    图像的红色通道控制水平位移
+    图像的绿色通道控制垂直位移
+  */
+  // 使用场景
+  // 波纹效果
+  // 扭曲变形
+  // 液体效果
+  // 过渡动画
+  // 玻璃折射效果
+
+  // 创建位移贴图精灵
+  const sprite = Sprite.from('displacement')
+  // 位移贴图的大小会影响效果，通常需要设置 wrapMode 为 PIXI.WRAP_MODES.REPEAT，以便在滚动时贴图循环。
+  sprite.texture.source.wrapMode = 'repeat'
+
+  const filter = new DisplacementFilter({
+    sprite,
+    // scale: 控制位移效果的强度
+    // 正值和负值会分别表示向右/向左或向下/向上位移
+    scale: 50,
+  })
+  // 位移滤镜作用到整个舞台上
+  app.stage.filters = [filter]
+
+  // 动态改变位移效果
+  /*
+  // 可以通过以下方式创建动态效果：
+    - 旋转位移贴图
+    - 移动位移贴图
+    - 动态改变scale值
+    - 组合多个滤镜
+  */
+  app.ticker.add(() => {
+    // 旋转位移贴图
+    // sprite.rotation += 0.01
+    // 或者移动位移贴图
+    // displacementSprite.x += Math.sin(Date.now() / 1000) * 2;
+    // displacementSprite.y += Math.cos(Date.now() / 1000) * 2;
+  })
 }
